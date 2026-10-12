@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>新家 3D 全景｜Two-Bedroom Apartment</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { width:100%; height:100%; overflow:hidden; background:#0e1116; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; }
+  #app { position:fixed; inset:0; }
+  canvas { display:block; }
+  #loading { position:fixed; inset:0; background:#0e1116; color:#e8e4da; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:50; gap:14px; transition:opacity .6s; }
+  #loading .t { font-size:20px; letter-spacing:4px; }
+  #loading .s { font-size:12px; color:#8a8f98; letter-spacing:2px; }
+  #loading .bar { width:180px; height:2px; background:#2a2f38; border-radius:2px; overflow:hidden; }
+  #loading .bar i { display:block; height:100%; width:30%; background:#d8c690; border-radius:2px; animation:slide 1.1s infinite ease-in-out; }
+  @keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(600%)} }
+  .panel { position:fixed; z-index:20; background:rgba(16,19,25,.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(216,198,144,.18); border-radius:12px; color:#e8e4da; }
+  #title { top:12px; left:12px; padding:10px 14px; }
+  #title h1 { font-size:15px; font-weight:600; letter-spacing:2px; }
+  #title p { font-size:11px; color:#9aa0aa; margin-top:3px; letter-spacing:1px; }
+  #views { top:12px; right:12px; padding:8px; display:flex; flex-wrap:wrap; gap:6px; max-width:46vw; justify-content:flex-end; }
+  #views button, #toggles button { border:1px solid rgba(216,198,144,.25); background:rgba(255,255,255,.05); color:#e8e4da; font-size:12px; padding:7px 11px; border-radius:8px; cursor:pointer; letter-spacing:1px; }
+  #views button.on, #toggles button.on { background:#d8c690; color:#1a1d23; border-color:#d8c690; font-weight:600; }
+  #views button:active, #toggles button:active { transform:scale(.96); }
+  #toggles { bottom:12px; left:12px; padding:8px; display:flex; gap:6px; flex-wrap:wrap; max-width:70vw; }
+  #info { bottom:12px; right:12px; width:min(320px, calc(100vw - 24px)); padding:14px 16px; display:none; }
+  #info.show { display:block; animation:up .25s ease-out; }
+  @keyframes up { from{transform:translateY(10px); opacity:0} to{transform:none; opacity:1} }
+  #info h2 { font-size:15px; letter-spacing:1px; color:#d8c690; margin-bottom:6px; }
+  #info p { font-size:12.5px; line-height:1.75; color:#cfd3da; }
+  #info .x { position:absolute; top:8px; right:10px; border:none; background:none; color:#8a8f98; font-size:16px; cursor:pointer; }
+  #hint { bottom:12px; left:50%; transform:translateX(-50%); padding:7px 14px; font-size:11px; color:#9aa0aa; letter-spacing:1px; white-space:nowrap; }
+  #labelsBtn.on { background:#d8c690; color:#1a1d23; }
+  @media (max-width:700px){
+    #title h1{font-size:13px} #title p{font-size:10px}
+    #views{max-width:58vw; flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start; scrollbar-width:none;}
+    #views::-webkit-scrollbar{display:none}
+    #views button{font-size:11px; padding:6px 8px; flex-shrink:0}
+    #hint{display:none}
+  }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="app"></div>
+<div id="loading"><div class="t">新家 3D 全景</div><div class="bar"><i></i></div><div class="s">正在按户型图与实拍搭建…</div></div>
+<div id="title" class="panel"><h1>新家 3D 全景</h1><p>两室一厅 · 按户型图 1:1 还原 · 点击任意家具查看</p></div>
+<div id="views" class="panel"></div>
+<div id="toggles" class="panel">
+  <button id="tgCeil">天花板</button>
+  <button id="tgLabel" class="on">房名</button>
+  <button id="tgDay">白天</button>
+  <button id="tgRot">旋转</button>
+</div>
+<div id="info" class="panel"><button class="x" id="infoX">✕</button><h2 id="infoT"></h2><p id="infoD"></p></div>
+<div id="hint" class="panel">拖拽旋转 · 滚轮缩放 · 右键平移 · 点击家具看介绍</div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
