@@ -13,8 +13,8 @@ renderer.toneMappingExposure = 1.12;
 app.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0e1116);
-scene.fog = new THREE.Fog(0x0e1116, 30, 70);
+scene.background = new THREE.Color(0x131110);
+scene.fog = new THREE.Fog(0x131110, 30, 70);
 
 const camera = new THREE.PerspectiveCamera(46, innerWidth/innerHeight, 0.05, 200);
 camera.position.set(3.67, 9.5, 13.5);
@@ -159,8 +159,8 @@ function roomLabel(text,x,z){
   labelGroup.add(s);
 }
 
-/* 尺寸（米） */
-const W=10.655, D=7.44, H=2.8, T=0.24, T2=0.12;
+/* 尺寸（米）：户型 7.34 × 10.655，层高 2.8 */
+const H=2.8, T=0.24, T2=0.12;
 const ceilGroup = new THREE.Group(); scene.add(ceilGroup); ceilGroup.visible = false;
 
 /* ============ 建筑外壳 ============ */
@@ -298,7 +298,7 @@ function baseboard(x0,x1,z){
 }
 
 /* ============ 材质补 ============ */
-M.card = new THREE.MeshStandardMaterial({ color:0xb08d5a, roughness:0.9 });
+M.rattan = new THREE.MeshStandardMaterial({ color:0xa8895a, roughness:0.85 });
 M.pink = new THREE.MeshStandardMaterial({ color:0xe6b7bd, roughness:0.9 });
 
 /* ============ 厨房（北） ============ */
@@ -634,14 +634,14 @@ tgLabel.onclick=()=>{ labelGroup.visible=!labelGroup.visible; tgLabel.classList.
 tgRot.onclick=()=>{ controls.autoRotate=!controls.autoRotate; controls.autoRotateSpeed=0.8; tgRot.classList.toggle('on',controls.autoRotate); };
 let isDay=false;
 tgDay.onclick=()=>{
-  isDay=!isDay; tgDay.classList.toggle('on',isDay); tgDay.textContent=isDay?'傍晚':'白天';
+  isDay=!isDay; tgDay.classList.toggle('on',isDay);
   if(isDay){
     scene.background.set(0x8fb4dd); scene.fog.color.set(0x8fb4dd);
     hemi.intensity=1.0; sun.intensity=1.7; sun.color.set(0xfff1d6);
     roomLights.forEach(l=>l.intensity=0); warm.intensity=0.9;
     renderer.toneMappingExposure=1.0;
   }else{
-    scene.background.set(0x0e1116); scene.fog.color.set(0x0e1116);
+    scene.background.set(0x131110); scene.fog.color.set(0x131110);
     hemi.intensity=0.55; sun.intensity=0.5; sun.color.set(0x8fb0e8);
     roomLights.forEach((l,i)=>l.intensity=[12,16,10,8,7,9,9,12,11][i]||10); warm.intensity=0;
     renderer.toneMappingExposure=1.12;
